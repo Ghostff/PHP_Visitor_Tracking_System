@@ -1376,6 +1376,7 @@ class GeoIP
 
 function geoip_load_shared_mem($file)
 {
+	
     $fp = fopen($file, "rb");
     if (!$fp) {
         print "error opening $file: $php_errormsg\n";
@@ -1532,6 +1533,7 @@ function geoip_open($filename, $flags)
     if ($gi->flags & GEOIP_SHARED_MEMORY) {
         $gi->shmid = @shmop_open(GEOIP_SHM_KEY, "a", 0, 0);
     } else {
+
         $gi->filehandle = fopen($filename, "rb") or trigger_error("GeoIP API: Can not open $filename\n", E_USER_ERROR);
         if ($gi->flags & GEOIP_MEMORY_CACHE) {
             $s_array = fstat($gi->filehandle);
