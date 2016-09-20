@@ -125,7 +125,8 @@ class Stalk
         define('DIR', __DIR__ .'/lib/');
         include  DIR . 'geoipcity.inc';
         include  DIR . 'geoipregionvars.php';
-
+        
+        static::$ip or $this->getUserIP();
         
         $gi      = geoip_open(DIR . 'GeoLiteCity.dat', GEOIP_STANDARD);
         $record  = geoip_record_by_addr($gi, static::$ip);
