@@ -31,7 +31,7 @@ class Stalk
         throw new Exception($error);
     }
     
-    private function getUserIP()
+    public static function ip()
     {
         $client  = @$_SERVER['HTTP_CLIENT_IP'];
         $forward = @$_SERVER['HTTP_X_FORWARDED_FOR'];
@@ -45,7 +45,7 @@ class Stalk
         else{
             $ip = $remote;
         }
-        static::$ip =  $ip;
+        return static::$ip ? static::$ip : $ip;
     }
     
     private function getBrowser()
@@ -125,14 +125,13 @@ class Stalk
         define('DIR', __DIR__ .'/lib/');
         include  DIR . 'geoipcity.inc';
         include  DIR . 'geoipregionvars.php';
-        
-        static::$ip or $this->getUserIP();
+
         
         $gi      = geoip_open(DIR . 'GeoLiteCity.dat', GEOIP_STANDARD);
-        $record  = geoip_record_by_addr($gi, static::$ip);
+        $record  = geoip_record_by_addr($gi, static::ip());
         
         $record->state   = $GEOIP_REGION_NAME[$record->country_code][$record->region];
-        $record->ip      = static::$ip;    
+        $record->ip      = static::ip();    
         $record->browser = $this->getBrowser();
 
         return $record;

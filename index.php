@@ -18,7 +18,7 @@ if ( ! file_exists('src/lib/GeoLiteCity.dat')) {
     '
     );
 }
-Stalk::$ip = '73.6.131.140';
+Stalk::$ip = '169.159.66.44';
 $stalk = new Stalk;
 $stalk = $stalk->get();
 
