@@ -2,18 +2,20 @@
 
 class Stalk
 {
-    public static $ip = null;
+    private static $ip = null;
     
     public static function __callStatic($name, $arg)
     {
         $stalk = new Stalk;
-        $stalk = $stalk->get();
+        
         
         $error = null;
         if ($name == 'all') {
-            return $stalk;
+            return $stalk->get($arg);
         }
-        elseif (property_exists($stalk, $name)) {
+        
+        $stalk = $stalk->get();
+        if (property_exists($stalk, $name)) {
             
             if (isset($arg[0])) {
                 if (is_object($stalk->{$name})) {
@@ -31,24 +33,33 @@ class Stalk
         throw new Exception($error);
     }
     
-    public static function ip()
+    public static function ip($ip = null)
     {
-        $client  = @$_SERVER['HTTP_CLIENT_IP'];
-        $forward = @$_SERVER['HTTP_X_FORWARDED_FOR'];
-        $remote  = $_SERVER['REMOTE_ADDR'];
-        if(filter_var($client, FILTER_VALIDATE_IP)){
-            $ip = $client;
+        if ($ip) {
+            self::$ip = $ip;
         }
-        elseif(filter_var($forward, FILTER_VALIDATE_IP)){
-            $ip = $forward;
+        elseif (self::$ip) {
+            return self::$ip;
         }
         else{
-            $ip = $remote;
+            $client  = @$_SERVER['HTTP_CLIENT_IP'];
+            $forward = @$_SERVER['HTTP_X_FORWARDED_FOR'];
+            $remote  = $_SERVER['REMOTE_ADDR'];
+            if(filter_var($client, FILTER_VALIDATE_IP)){
+                $ip = $client;
+            }
+            elseif(filter_var($forward, FILTER_VALIDATE_IP)){
+                $ip = $forward;
+            }
+            else{
+                $ip = $remote;
+            }
+            return $ip;
         }
-        return static::$ip ? static::$ip : $ip;
+       
     }
     
-    private function getBrowser()
+    public static function browser($type = null, $object = false)
     {
         $u_agent = $_SERVER['HTTP_USER_AGENT'];
         $platform = 'Unknown';
@@ -113,27 +124,39 @@ class Stalk
         if ($version == null || $version == ""){
             $version = "?";
         }
-        return (object) array(
-            'name' => $bname, 
-            'version' => $version, 
-            'OS' => $platform
+        
+        $browse_data = array(
+            'name'         => $bname, 
+            'version'     => $version, 
+            'OS'         => $platform
         );
+        
+        if ($type) {
+            
+            if (array_key_exists($type, $browse_data)) {
+                return $browse_data[$type];
+            }
+            else {
+                return 'they key:' . $type . ' does not exists in browsers data';
+            }
+        }
+
+        return ($object) ? (object) $browse_data : $browse_data;
     }
     
-    public function get()
+    public function get($as_array = false)
     {
         define('DIR', __DIR__ .'/lib/');
         include  DIR . 'geoipcity.inc';
         include  DIR . 'geoipregionvars.php';
 
-        
         $gi      = geoip_open(DIR . 'GeoLiteCity.dat', GEOIP_STANDARD);
-        $record  = geoip_record_by_addr($gi, static::ip());
+        $record  = geoip_record_by_addr($gi, self::ip());
         
         $record->state   = $GEOIP_REGION_NAME[$record->country_code][$record->region];
-        $record->ip      = static::ip();    
-        $record->browser = $this->getBrowser();
-
-        return $record;
+        $record->ip      = self::ip();    
+        $record->browser = self::browser(null, ($as_array) ? false : true);
+        
+        return ($as_array) ? (array) $record : $record;
     }
 }
