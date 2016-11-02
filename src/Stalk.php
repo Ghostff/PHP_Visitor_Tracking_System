@@ -3,18 +3,24 @@
 class Stalk
 {
     private static $ip = null;
+	
+	private static $instantiated = null;
     
     public static function __callStatic($name, $arg)
     {
-        $stalk = new Stalk;
+		
+		if ( ! self::$instantiated) {
+			$stalk = new Stalk;
+			self::$instantiated = $stalk->get($arg);
+		}
+        $stalk = self::$instantiated;
         
         
         $error = null;
         if ($name == 'all') {
-            return $stalk->get($arg);
+            return $stalk;
         }
-        
-        $stalk = $stalk->get();
+
         if (property_exists($stalk, $name)) {
             
             if (isset($arg[0])) {
@@ -126,8 +132,8 @@ class Stalk
         }
         
         $browse_data = array(
-            'name'         => $bname, 
-            'version'     => $version, 
+            'name'       => $bname, 
+            'version'    => $version, 
             'OS'         => $platform
         );
         
@@ -149,7 +155,17 @@ class Stalk
         define('DIR', __DIR__ .'/lib/');
         include  DIR . 'geoipcity.inc';
         include  DIR . 'geoipregionvars.php';
-
+		
+		
+		//delete (if u have maxmind downloaded) start ->
+		if ( ! file_exists(DIR . 'GeoLiteCity.dat')) {
+			die('You need to <a 
+				href="http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz"
+				style="font-weight:bold; color:#0188B1;">download</a>
+				and extract the <code>GeoLiteCity.dat</code> file to <code>src/lib</code> directory'
+			);
+		} // <- end
+		
         $gi      = geoip_open(DIR . 'GeoLiteCity.dat', GEOIP_STANDARD);
         $record  = geoip_record_by_addr($gi, self::ip());
         
