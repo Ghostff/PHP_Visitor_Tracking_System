@@ -1,4 +1,4 @@
-PHP Visitors Tracker [DOC](http://ghostff.com/library/php/Visitors_Tracking_System)
+PHP Visitors Tracker [Documentation](http://ghostff.com/library/php/Visitors_Tracking_System)
 ----------
 99% accurate visitors tracking and data collection system.
 
