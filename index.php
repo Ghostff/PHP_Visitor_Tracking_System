@@ -11,7 +11,7 @@ Stalk::ip('169.159.66.44');
 var_dump(Stalk::city() . ' ' . Stalk::country_name());
 
 /*
-* same ass
+* same as
 *
 * $stalk = new Stalk;
 * $stalk = $stalk->get();
