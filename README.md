@@ -2,7 +2,7 @@ PHP Visitors Tracker [Documentation](http://ghostff.com/library/php/Visitors_Tra
 ----------
 99% accurate visitors tracking system.
 
-#USAGE
+# USAGE
 ```php
 $stalk = new Stalk;
 $stalk = $stalk->get();
