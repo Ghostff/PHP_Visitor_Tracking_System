@@ -1,20 +1,14 @@
 <?php
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 require_once 'src/Stalk.php';
 
 
 //remove this if not testing on local machine
-Stalk::ip('169.159.66.44');
+$stalk = Stalk::get('50.226.114.86');
 
+var_dump($stalk);
 
-var_dump(Stalk::city() . ' ' . Stalk::country_name());
-
-/*
-* same as
-*
-* $stalk = new Stalk;
-* $stalk = $stalk->get();
-* var_dump($stalk->city . ' ' . $stalk->country_name());
-*
-*/

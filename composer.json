@@ -1,0 +1,24 @@
+{
+    "name": "ghostff/stalk",
+    "description": "PHP Session Manager (non-blocking, flash, segment, session encryption).",
+    "type": "library",
+    "keywords" : ["session", "segment", "secured-session", "session-manger", "non-blocking", "memcached", "redis", "sql"],
+    "license": "BSD",
+    "authors": [
+        {
+            "name": "Chrys Ugwu",
+            "email": "frankchris@hotmail.com"
+        }
+    ],
+    "require": {
+		"php": ">=5.3"
+	},
+	"autoload" : {
+		"psr-4" : {
+		  	"Stalk\\" : "src/"
+		}
+    },
+    "require-dev": {
+        "ghostff/stalk": "^1.0"
+    }
+}
