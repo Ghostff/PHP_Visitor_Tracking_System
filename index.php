@@ -4,17 +4,7 @@
 require_once 'src/Stalk.php';
 
 
-//remove this if not testing on local machine
-Stalk::ip('169.159.66.44');
+$stalk = new Stalk('99.75.13.122');
 
+var_dump($stalk);
 
-var_dump(Stalk::city() . ' ' . Stalk::country_name());
-
-/*
-* same as
-*
-* $stalk = new Stalk;
-* $stalk = $stalk->get();
-* var_dump($stalk->city . ' ' . $stalk->country_name());
-*
-*/

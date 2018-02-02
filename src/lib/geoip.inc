@@ -1374,9 +1374,21 @@ class GeoIP
     );
 }
 
+class Browser
+{
+    public $name = null;
+    public $version = null;
+    public $OS = null;
+
+    public function __construct($browser_data)
+    {
+        var_dump($browser_data);
+        list($this->name, $this->version, $this->OS) = $browser_data;
+    }
+}
+
 function geoip_load_shared_mem($file)
 {
-	
     $fp = fopen($file, "rb");
     if (!$fp) {
         print "error opening $file: $php_errormsg\n";
