@@ -16,7 +16,7 @@ class Stalk
     public $metro_code     = null;
     public $continent_code = null;
     public $ip             = null;
-    public $browser        = [];
+    public $browser        = null;
 
     /**
      * Stalk constructor.
