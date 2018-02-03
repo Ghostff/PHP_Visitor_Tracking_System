@@ -1,10 +1,9 @@
 <?php
 
 
-require_once 'src/Stalk.php';
 
+include 'src/Stalk.php';
 
-$stalk = new Stalk('99.75.13.122');
+$stalk = Stalk::ip('99.75.13.122');
 
-var_dump($stalk);
-
+var_dump($stalk->city . ' ' . $stalk->country_name);

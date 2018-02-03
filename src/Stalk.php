@@ -18,12 +18,33 @@ class Stalk
     public $ip             = null;
     public $browser        = [];
 
+    /**
+     * Stalk constructor.
+     *
+     * @param null $ip
+     */
     public function __construct($ip = null)
     {
         $this->ip = ($ip == null) ? $this->getIp() : $ip;
         $this->locate();
     }
 
+    /**
+     * Static instance for legacy reasons.
+     *
+     * @param null $ip
+     * @return static
+     */
+    public static function ip($ip = null)
+    {
+        return new static($ip);
+    }
+
+    /**
+     * Gets clients IP address.
+     *
+     * @return mixed
+     */
     private function getIp()
     {
         $client = @$_SERVER['HTTP_CLIENT_IP'];
@@ -46,6 +67,11 @@ class Stalk
         return $ip;
     }
 
+    /**
+     * Gets clients browser's information.
+     *
+     * @return array
+     */
     public function getBrowser()
     {
         $u_agent = $_SERVER['HTTP_USER_AGENT'];
@@ -129,6 +155,9 @@ class Stalk
         return array($browser_name, $version, $platform);
     }
 
+    /**
+     * Sets clients state based on country code and region
+     */
     private function setState()
     {
         $states = array(
@@ -4764,6 +4793,11 @@ class Stalk
         $this->state = $states[$this->country_code][$this->region];
     }
 
+    /**
+     * @param $gi
+     * @param $seek_country
+     * @return $this
+     */
     private function commonGetRecord($gi, $seek_country)
     {
         // workaround php's broken substr, strpos, etc handling with
@@ -4883,6 +4917,10 @@ class Stalk
         return $this;
     }
 
+    /**
+     * @param $gi
+     * @return null|\Stalk
+     */
     private function getRecord($gi)
     {
         if (! $this->ip)
@@ -4909,13 +4947,11 @@ class Stalk
         $geoFile = "{$dir}GeoLiteCity.dat";
 
         # delete (if you have maxmind GeoLiteCity.dat downloaded) start ->
-        if (!file_exists($geoFile))
+        if (! file_exists($geoFile))
         {
-            throw new RuntimeException('You need to <a 
-                href="http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz"
+            die('You need to <a href="http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz"
                 style="font-weight:bold; color:#0188B1;">download</a>
-                and extract the <code>GeoLiteCity.dat</code> file to <code>src/lib</code> directory'
-            );
+                and extract the <code>"GeoLiteCity.dat"</code> file to <code>src/lib</code> directory');
         } # <- end
 
         $gi = geoip_open($geoFile, GEOIP_STANDARD);

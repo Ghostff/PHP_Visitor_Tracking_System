@@ -1382,7 +1382,6 @@ class Browser
 
     public function __construct($browser_data)
     {
-        var_dump($browser_data);
         list($this->name, $this->version, $this->OS) = $browser_data;
     }
 }
