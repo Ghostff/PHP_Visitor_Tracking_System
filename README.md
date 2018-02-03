@@ -5,7 +5,6 @@ PHP Visitors Tracker [Documentation](http://ghostff.com/library/php/Visitors_Tra
 # USAGE
 ```php
 $stalk = new Stalk;
-$stalk = $stalk->get();
 
 $stalk->ip; //outputs clients IP address
 
@@ -27,3 +26,10 @@ $stalk->dma_code; //outputs clients dma code
 $stalk->metro_code; //outputs clients metro code
 $stalk->continent_code; //outputs continent code
 ```
+
+# Change Log v1.01
+ - The `get`, `ip` and `browser` method was remove.
+ - Public variables can no longer be accessed statically. eg: `$stalk->city` as `Stalk::city()`
+ - Stalk can now be initialized as follow:
+   - Implicit `$stalk = new Stalk;`
+   - Explicit `$stalk = new Stalk('11.22.33.444);` or `$stalk = Stalk::ip('11.22.33.444);`
