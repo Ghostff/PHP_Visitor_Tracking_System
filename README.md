@@ -1,3 +1,6 @@
+**This project is no longer being maintained, please use [Instead](https://github.com/Ghostff/PHP_visitors_tracking_system)**
+
+
 PHP Visitors Tracker [Documentation](http://ghostff.com/library/php/Visitors_Tracking_System)
 ----------
 99% accurate visitors tracking system.
